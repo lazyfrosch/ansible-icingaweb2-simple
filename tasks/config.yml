@@ -1,0 +1,21 @@
+---
+- name: Icingaweb2 config directory
+  file:
+    path: /etc/icingaweb2
+    owner: "{{ icingaweb2_config_owner }}"
+    group: "{{ icingaweb2_config_group }}"
+    mode: "{{ icingaweb2_config_dir_mode }}"
+
+- name: icingaweb2 config files
+  template:
+    src: "{{ item }}.ini.j2"
+    dest: /etc/icingaweb2/{{ item }}.ini
+    owner: "{{ icingaweb2_config_owner }}"
+    group: "{{ icingaweb2_config_group }}"
+    mode: "{{ icingaweb2_config_file_mode }}"
+  with_items:
+    - config
+    - roles
+    - resources
+    - authentication
+    - groups

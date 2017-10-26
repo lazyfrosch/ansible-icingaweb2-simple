@@ -1,0 +1,10 @@
+---
+- name: Icinga Repository on RedHat
+  yum_repository:
+    name: icinga
+    description: Icinga repository
+    baseurl: 'https://packages.icinga.com/epel/$releasever/release'
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: 'https://packages.icinga.com/icinga.key'
+  when: ansible_os_family == "RedHat"

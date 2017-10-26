@@ -1,0 +1,6 @@
+---
+- name: Fail when unsupported database type
+  fail: msg="Only icingaweb2_ido_type == mysql is supported right now"
+  when: icingaweb2_ido_type != "mysql"
+
+# TODO: create resource

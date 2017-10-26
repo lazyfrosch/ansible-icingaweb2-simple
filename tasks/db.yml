@@ -1,0 +1,30 @@
+---
+- name: Fail when unsupported database type
+  fail: msg="Only icingaweb2_db_type == mysql is supported right now"
+  when: icingaweb2_db_type != "mysql"
+
+- name: Check icingaweb2 tables exist
+  command: >
+    mysql
+    -h {{ icingaweb2_db_host|quote }}
+    -u {{ icingaweb2_db_username|quote }}
+    -p{{ icingaweb2_db_password|quote }}
+    {{ icingaweb2_db_database|quote }}
+    -Ns -e "SHOW TABLES LIKE 'icingaweb_user'"
+  register: table_exists
+  changed_when: false
+  when: icingaweb2_db_type == "mysql"
+
+- name: Import schema into MySQL
+  mysql_db:
+    state: import
+    name: "{{ icingaweb2_db_database }}"
+    login_host: "{{ icingaweb2_db_host }}"
+    login_user: "{{ icingaweb2_db_username }}"
+    login_password: "{{ icingaweb2_db_password }}"
+    target: /usr/share/doc/icingaweb2/schema/{{ icingaweb2_db_type }}.schema.sql
+  when:
+    - icingaweb2_db_type == "mysql"
+    - table_exists.stdout == ""
+
+# TODO: users

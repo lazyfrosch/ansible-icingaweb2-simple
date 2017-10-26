@@ -1,0 +1,35 @@
+---
+icingaweb2_manage_repo: eys
+icingaweb2_manage_db: yes
+icingaweb2_manage_httpd: yes
+
+icingaweb2_module_monitoring: yes
+
+icingaweb2_php_timezone: '{{ ansible_date_time.tz }}'
+
+icingaweb2_db_type: mysql
+icingaweb2_db_host: localhost
+icingaweb2_db_database: icingaweb2
+icingaweb2_db_username: icingaweb2
+icingaweb2_db_password: icingaweb2
+
+icingaweb2_ido_type: mysql
+icingaweb2_ido_host: localhost
+icingaweb2_ido_database: icinga2
+icingaweb2_ido_username: icingaweb2_ido
+icingaweb2_ido_password: icingaweb2_ido
+
+icingaweb2_config_owner: root
+icingaweb2_config_group: icingaweb2
+icingaweb2_config_dir_mode: '2770'
+icingaweb2_config_file_mode: '0660'
+
+icingaweb2_roles:
+  - name: admins
+    users: icingaadmin
+    permissions:
+      - "*"
+
+icingaweb2_resources: []
+icingaweb2_authentications: []
+icingaweb2_groups: []

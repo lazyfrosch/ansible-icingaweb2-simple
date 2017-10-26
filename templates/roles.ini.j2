@@ -1,0 +1,11 @@
+; {{ ansible_managed }}
+
+{% for role in icingaweb2_roles %}
+[{{ role.name }}]
+{% for key, value in role.items() %}
+{%- if key != 'name' %}
+{%- if value is iterable and value is not string %}{% set value = value|join(',') %}{% endif %}
+{{ key }} = "{{ value }}"
+{% endif %}
+{% endfor %}
+{% endfor %}

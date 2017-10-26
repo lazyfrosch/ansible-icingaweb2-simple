@@ -1,0 +1,32 @@
+---
+- name: Install packages
+  package:
+    name: '{{ item }}'
+    state: present
+  with_items:
+    - httpd
+    - php-pdo
+    - php-mysql
+
+- name: Enable httpd webserver
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: Set php timezone
+  lineinfile:
+    path: /etc/php.d/timezone.ini
+    regexp: '^date.timezone'
+    line: 'date.timezone = {{ icingaweb2_php_timezone }}'
+    create: yes
+  when: ansible_os_family == 'RedHat'
+  notify:
+    - Restart Apache webserver
+
+- name: httpd config for icingaweb2
+  template:
+    src: httpd.conf.j2
+    dest: /etc/httpd/conf.d/icingaweb2.conf
+  notify:
+    - Restart Apache webserver

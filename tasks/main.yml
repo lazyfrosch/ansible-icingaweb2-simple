@@ -1,0 +1,24 @@
+---
+- include_tasks: repo.yml
+  when: icingaweb2_manage_repo == yes
+
+- name: Install icingaweb2
+  package:
+    name: icingaweb2
+    state: present
+
+- name: Install icingaweb2 CLI
+  package:
+    name: icingacli
+    state: present
+
+- include_tasks: config.yml
+
+- include_tasks: db.yml
+  when: icingaweb2_manage_db == yes
+
+- include_tasks: httpd.yml
+  when: icingaweb2_manage_httpd == yes
+
+- include_tasks: monitoring.yml
+  when: icingaweb2_module_monitoring == yes
