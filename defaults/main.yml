@@ -36,3 +36,5 @@ icingaweb2_roles:
 icingaweb2_resources: []
 icingaweb2_authentications: []
 icingaweb2_groups: []
+
+icingaweb2_monitoring_commandpipe: /var/run/icinga2/cmd/icinga2.cmd

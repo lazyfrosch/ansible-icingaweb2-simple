@@ -1,6 +1,23 @@
 ---
-- name: Fail when unsupported database type
-  fail: msg="Only icingaweb2_ido_type == mysql is supported right now"
-  when: icingaweb2_ido_type != "mysql"
+- name: Enable icingaweb2 module monitoring
+  command: icingacli module enable monitoring
+  changed_when: false
 
-# TODO: create resource
+- name: icingaweb2 monitoring config directory
+  file:
+    path: /etc/icingaweb2/modules/monitoring
+    state: directory
+    owner: "{{ icingaweb2_config_owner }}"
+    group: "{{ icingaweb2_config_group }}"
+    mode: "{{ icingaweb2_config_dir_mode }}"
+
+- name: icingaweb2 monitoring config files
+  template:
+    src: monitoring/{{ item }}.ini.j2
+    dest: /etc/icingaweb2/modules/monitoring/{{ item }}.ini
+    owner: "{{ icingaweb2_config_owner }}"
+    group: "{{ icingaweb2_config_group }}"
+    mode: "{{ icingaweb2_config_file_mode }}"
+  with_items:
+    - backends
+    - commandtransports

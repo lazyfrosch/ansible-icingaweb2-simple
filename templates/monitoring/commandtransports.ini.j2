@@ -1,0 +1,7 @@
+; {{ ansible_managed }}
+
+{% if icingaweb2_monitoring_commandpipe is defined %}
+[commandpipe]
+transport = "local"
+path = "{{ icingaweb2_monitoring_commandpipe }}"
+{% endif %}

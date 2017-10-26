@@ -1,7 +1,16 @@
 ---
-- name: Icingaweb2 config directory
+- name: icingaweb2 config directory
   file:
     path: /etc/icingaweb2
+    state: directory
+    owner: "{{ icingaweb2_config_owner }}"
+    group: "{{ icingaweb2_config_group }}"
+    mode: "{{ icingaweb2_config_dir_mode }}"
+
+- name: icingaweb2 config directory modules
+  file:
+    path: /etc/icingaweb2/modules
+    state: directory
     owner: "{{ icingaweb2_config_owner }}"
     group: "{{ icingaweb2_config_group }}"
     mode: "{{ icingaweb2_config_dir_mode }}"
