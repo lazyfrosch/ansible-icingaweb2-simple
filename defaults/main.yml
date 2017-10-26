@@ -24,6 +24,9 @@ icingaweb2_config_group: icingaweb2
 icingaweb2_config_dir_mode: '2770'
 icingaweb2_config_file_mode: '0660'
 
+# Password hash for user 'icingaadmin' - default: icinga
+icingaweb2_admin_password_hash: '$1$3no6eqZp$FlcHQDdnxGPqKadmfVcCU.'
+
 icingaweb2_roles:
   - name: admins
     users: icingaadmin

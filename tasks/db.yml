@@ -27,4 +27,39 @@
     - icingaweb2_db_type == "mysql"
     - table_exists.stdout == ""
 
-# TODO: users
+- name: Check if icingaadmin users exists
+  command: >
+    mysql
+    -h {{ icingaweb2_db_host|quote }}
+    -u {{ icingaweb2_db_username|quote }}
+    -p{{ icingaweb2_db_password|quote }}
+    {{ icingaweb2_db_database|quote }}
+    -Ns -e "SELECT password_hash FROM icingaweb_user WHERE name = 'icingaadmin'"
+  register: icingaadmin_password_hash
+  changed_when: false
+  when: icingaweb2_db_type == "mysql"
+
+- name: Create icingaadmin in database
+  command: >
+    mysql
+    -h {{ icingaweb2_db_host|quote }}
+    -u {{ icingaweb2_db_username|quote }}
+    -p{{ icingaweb2_db_password|quote }}
+    {{ icingaweb2_db_database|quote }}
+    -Ns -e "INSERT INTO icingaweb_user (name, active, password_hash) VALUES ('icingaadmin', 1, {{ icingaweb2_admin_password_hash|quote }})"
+  when:
+    - icingaweb2_db_type == "mysql"
+    - icingaadmin_password_hash.stdout == ""
+
+- name: Update icingaadmin password_hash in database
+  command: >
+    mysql
+    -h {{ icingaweb2_db_host|quote }}
+    -u {{ icingaweb2_db_username|quote }}
+    -p{{ icingaweb2_db_password|quote }}
+    {{ icingaweb2_db_database|quote }}
+    -Ns -e "UPDATE icingaweb_user SET password_hash={{ icingaweb2_admin_password_hash|quote }} WHERE name = 'icingaadmin'"
+  when:
+    - icingaweb2_db_type == "mysql"
+    - icingaadmin_password_hash.stdout != ""
+    - icingaadmin_password_hash.stdout != icingaweb2_admin_password_hash
