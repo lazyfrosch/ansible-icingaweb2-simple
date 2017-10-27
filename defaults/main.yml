@@ -38,3 +38,5 @@ icingaweb2_authentications: []
 icingaweb2_groups: []
 
 icingaweb2_monitoring_commandpipe: /var/run/icinga2/cmd/icinga2.cmd
+
+icingaweb2_httpd_redirect: no

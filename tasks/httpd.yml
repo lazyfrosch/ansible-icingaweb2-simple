@@ -28,5 +28,18 @@
   template:
     src: httpd.conf.j2
     dest: /etc/httpd/conf.d/icingaweb2.conf
-  notify:
-    - Restart Apache webserver
+  notify: Restart Apache webserver
+
+- name: Setup http default redirect
+  template:
+    src: httpd-redirect.conf.j2
+    dest: /etc/httpd/conf.d/icingaweb2-redirect.conf
+  notify: Restart Apache webserver
+  when: icingaweb2_httpd_redirect
+
+- name: Remove http default redirect
+  file:
+    path: /etc/httpd/conf.d/icingaweb2-redirect.conf
+    state: absent
+  notify: Restart Apache webserver
+  when: not icingaweb2_httpd_redirect
