@@ -7,13 +7,16 @@
     group: "{{ icingaweb2_config_group }}"
     mode: "{{ icingaweb2_config_dir_mode }}"
 
-- name: icingaweb2 config directory modules
+- name: icingaweb2 config directories
   file:
-    path: /etc/icingaweb2/modules
+    path: /etc/icingaweb2/{{ item }}
     state: directory
     owner: "{{ icingaweb2_config_owner }}"
     group: "{{ icingaweb2_config_group }}"
     mode: "{{ icingaweb2_config_dir_mode }}"
+  with_items:
+    - modules
+    - enabledModules
 
 - name: icingaweb2 config files
   template:
